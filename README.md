@@ -1,0 +1,115 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# gdal-summarize
+
+The goal of `gdal-summarize.py` is to summarize raster data across
+layers. There are two common use cases for this tool. The first is
+calculating a cell-wise summary across the bands of a raster file
+(e.g. a GeoTIFF). For example, given a multi-band input GeoTIFF file
+`input.tif`, to calculate the cell-wise sum of the first three bands
+use:
+
+``` bash
+gdal-summarize.py input.tif --bands 1 2 3 --outfile output.tif
+```
+
+Alternatively, the compute the cell-wise sum across multiple GeoTIFF
+files (`input1.tif`, `input2.tif`, and `input3.tif`) use:
+
+``` bash
+gdal-summarize.py input1.tif input2.tif input3.tif --outfile output.tif
+```
+
+If these input files have multiple bands, the default behavior is to
+summarize the across the **first** band of each file; however, the
+`--bands` argument can override this behavior:
+
+``` bash
+# summarize across the second band of each file
+gdal-summarize.py input1.tif input2.tif input3.tif --bands 2 --outfile output.tif
+# summarize across band 1 of input1.tif and band 2 of input2.tif
+gdal-summarize.py input1.tif input2.tif --bands 1 2 --outfile output.tif
+```
+
+## Summary Functions
+
+The default behavior is to perform a cell-wise sum; however, other
+summary functions are available via the `--function` argument:
+
+  - `sum`: cell-wise sum across layers.
+  - `mean`: cell-wise mean across layers.
+  - `count`: count the number layers with non-negative value for each
+    cell.
+  - `richness`: count the number of layers with positive values for each
+    cell.
+
+## Example dataset
+
+This repository contains two example datasets for testing
+`gdal-summarize.py`. The **small example**, consists of two GeoTIFF
+files (`data/small1.tif` and `data/small2.tif`) each of which has two
+bands with dimensions 3x3. The files are filled with count data
+(i.e. non-negative integers) and contain both zeros and missing values.
+These files are meant to be small enough that the correct results can be
+manually calculated to help understand how the functions are working.
+The data in the first file looks like this:
+
+<img src="figures/small-1.png" width="100%" />
+
+The **large example**, consists of two GeoTIFF files (`data/large1.tif`
+and `data/large2.tif`) each of which has 9 bands with dimensions
+250x250. The files are filled with simulated species occupancy
+(i.e. real numbers between 0 and 1) and contain both zeros and missing
+values. These files were generated using the `simulate_species()`
+function from the [`prioritizr` R package](https://prioritizr.net/). The
+data in the first file looks like this:
+
+<img src="figures/large-1.png" width="100%" />
+
+## Dependencies
+
+`gdal-summarize.py` uses the GDAL Python 3 bindings and therefore
+requires [GDAL](https://gdal.org/) be installed on your system. On Mac
+OS, this can be accomplished using [homebrew](https://brew.sh/) with:
+
+``` bash
+brew install gdal
+```
+
+## Getting Help
+
+Use `gdal-summarize.py -h` to get help and usage guidelines for this
+tool:
+
+``` bash
+usage: gdal-summarize.py [-h] --outfile OUTFILE [--bands BANDS [BANDS ...]]
+                         [--function {mean,sum,count,richness}]
+                         [--block_size BLOCK_SIZE BLOCK_SIZE] [--nrows NROWS]
+                         [--quiet] [--overwrite]
+                         files [files ...]
+
+Summarize a set of rasters layers.
+
+positional arguments:
+  files                 input raster file(s)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --outfile OUTFILE, -o OUTFILE
+                        output raster
+  --bands BANDS [BANDS ...], -b BANDS [BANDS ...]
+                        bands to summarize. single file: bands in this file to
+                        summarize (default all bands); multiple files: bands
+                        in corresponding files to summarize (default = 1)
+  --function {mean,sum,count,richness}, -f {mean,sum,count,richness}
+                        summarization function (default = 'sum')
+  --block_size BLOCK_SIZE BLOCK_SIZE, -s BLOCK_SIZE BLOCK_SIZE
+                        x and y dimensions of blocks to process (default based
+                        on input)
+  --nrows NROWS, -n NROWS
+                        number of rows to process in a single block
+                        (block_size ignored if provided)
+  --quiet, -q           supress messages
+  --overwrite, -w       overwrite existing file
+```
