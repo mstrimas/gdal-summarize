@@ -32,6 +32,11 @@ gdal-summarize.py input1.tif input2.tif input3.tif --bands 2 --outfile output.ti
 gdal-summarize.py input1.tif input2.tif --bands 1 2 --outfile output.tif
 ```
 
+For usage examples of `gdal-summarize.py` and a comparison with R, look
+at [this
+document](https://github.com/mstrimas/gdal-summarize/blob/master/raster-summarize.md)
+on the GitHub repo.
+
 ## Summary Functions
 
 The default behavior is to perform a cell-wise sum; however, other
