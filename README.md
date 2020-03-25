@@ -35,7 +35,9 @@ gdal-summarize.py input1.tif input2.tif --bands 1 2 --outfile output.tif
 For usage examples of `gdal-summarize.py` and a comparison with R, look
 at [this
 document](https://github.com/mstrimas/gdal-summarize/blob/master/raster-summarize.md)
-on the GitHub repo.
+on the GitHub repo. The code for the excellent
+[`gdal_calc.py`](https://gdal.org/programs/gdal_calc.html) served as the
+starting point for `gdal-summarize.py`.
 
 ## Summary Functions
 
