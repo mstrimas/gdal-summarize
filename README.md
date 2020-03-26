@@ -14,7 +14,7 @@ use:
 gdal-summarize.py input.tif --bands 1 2 3 --outfile output.tif
 ```
 
-Alternatively, the compute the cell-wise sum across multiple GeoTIFF
+Alternatively, to compute the cell-wise sum across multiple GeoTIFF
 files (`input1.tif`, `input2.tif`, and `input3.tif`) use:
 
 ``` bash
@@ -22,7 +22,7 @@ gdal-summarize.py input1.tif input2.tif input3.tif --outfile output.tif
 ```
 
 If these input files have multiple bands, the default behavior is to
-summarize the across the **first** band of each file; however, the
+summarize them across the **first** band of each file; however, the
 `--bands` argument can override this behavior:
 
 ``` bash
@@ -50,6 +50,15 @@ summary functions are available via the `--function` argument:
     cell.
   - `richness`: count the number of layers with positive values for each
     cell.
+
+In all cases, these functions remove missing values (i.e. NoData or NA)
+prior to calculating the summary statistic. For example, the mean of the
+numners, 1, 2, and NoData is 1.5. This is similar to the way `na.rm =
+TRUE` works in R. I’d be happy to add additional summary functions, just
+[open an
+issue](https://github.com/mstrimas/gdal-summarize/issues/new/choose) or
+[submit a pull
+request](https://github.com/mstrimas/gdal-summarize/compare).
 
 ## Example dataset
 

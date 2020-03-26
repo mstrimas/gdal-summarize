@@ -184,10 +184,10 @@ def main():
     
     # message
     if not args.quiet:
-        m = "Processing {}X{} raster in {} {}X{} blocks"
-        m = m.format(raster_dim[1], raster_dim[0],
+        m = "Processing {} X {} raster (cols X rows) in {} blocks of {} X {}"
+        m = m.format(raster_dim[0], raster_dim[1],
                      xblocks * yblocks,
-                     block_size[1], block_size[0])
+                     block_size[0], block_size[1])
         print(m)
 
     # loop through x dimension
