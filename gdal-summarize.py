@@ -20,13 +20,13 @@ def main():
     parser.add_argument('--bands', '-b', nargs = '+', 
                         type = int, 
                         help = band_help)
-    function_help = 'sum and mean calculate the sum or mean of cell values across layers.' + \
+    function_help = 'function to apply to cell values across layers.' + \
         'count counts the number layers with non-negative values for each cell.' + \
         'richness counts the number of layers with positive values for each cell.'
     parser.add_argument('--function', '-f', 
                         dest = 'summary_function',
                         default = 'mean',
-                        choices = ['mean', 'sum', 'count', 'richness'],
+                        choices = ['mean', 'median', 'max', 'sum', 'count', 'richness'],
                         help = "summarization function (default = 'sum')")                    
     parser.add_argument('--block_size', '-s', nargs = 2,
                         type = int,
@@ -144,6 +144,14 @@ def main():
             out_type = 'Float32'
             out_type_np = out_type.lower()
             np_nan = np.nan
+        elif args.summary_function == 'median':
+            out_type = 'Float32'
+            out_type_np = out_type.lower()
+            np_nan = np.nan
+        elif args.summary_function == 'max':
+            out_type = 'Float32'
+            out_type_np = out_type.lower()
+            np_nan = np.nan
         elif args.summary_function == 'count':
             out_type = 'Int16'
             out_type_np = out_type.lower()
@@ -245,12 +253,15 @@ def main():
                     result = np.nansum(block, axis = 0)
                 elif args.summary_function == 'mean':
                     result = np.nanmean(block, axis = 0)
+                elif args.summary_function == 'median':
+                    result = np.nanmedian(block, axis = 0)
+                elif args.summary_function == 'max':
+                    result = np.nanmax(block, axis = 0)
                 elif args.summary_function == 'count':
                     result = np.nansum(block >= 0, axis = 0)
                 elif args.summary_function == 'richness':
                     result = np.nansum(block > 0, axis = 0)
                 
-
             # replace nan with no data value
             result[np.isnan(result)] = out_ndv_np
 
