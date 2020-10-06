@@ -21,13 +21,14 @@ def main():
                         type = int, 
                         help = band_help)
     function_help = 'function to apply to cell values across layers.' + \
+        'meannz gives a mean of the non-zero values' + \
         'count counts the number layers with non-negative values for each cell.' + \
         'richness counts the number of layers with positive values for each cell.'
     parser.add_argument('--function', '-f', 
                         dest = 'summary_function',
                         default = 'mean',
-                        choices = ['mean', 'median', 'max', 'sum', 'count', 'richness'],
-                        help = "summarization function (default = 'sum')")                    
+                        choices = ['mean', 'median', 'max', 'sum', 'meannz', 'count', 'richness'],
+                        help = "summarization function (default = 'mean')")                    
     parser.add_argument('--block_size', '-s', nargs = 2,
                         type = int,
                         help = 'x and y dimensions of blocks to process (default based on input)')
@@ -152,6 +153,10 @@ def main():
             out_type = 'Float32'
             out_type_np = out_type.lower()
             np_nan = np.nan
+        elif args.summary_function == 'meannz':
+            out_type = 'Float32'
+            out_type_np = out_type.lower()
+            np_nan = np.nan
         elif args.summary_function == 'count':
             out_type = 'Int16'
             out_type_np = out_type.lower()
@@ -257,6 +262,9 @@ def main():
                     result = np.nanmedian(block, axis = 0)
                 elif args.summary_function == 'max':
                     result = np.nanmax(block, axis = 0)
+                elif args.summary_function == 'meannz':
+                    block = np.ma.masked_equal(block, 0)
+                    result = np.nanmean(block, axis = 0)
                 elif args.summary_function == 'count':
                     result = np.nansum(block >= 0, axis = 0)
                 elif args.summary_function == 'richness':
