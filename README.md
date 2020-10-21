@@ -41,11 +41,14 @@ starting point for `gdal-summarize.py`.
 
 ## Summary Functions
 
-The default behavior is to perform a cell-wise sum; however, other
+The default behavior is to perform a cell-wise mean; however, other
 summary functions are available via the `--function` argument:
 
-  - `sum`: cell-wise sum across layers.
   - `mean`: cell-wise mean across layers.
+  - `median`: cell-wise median across layers.
+  - `max`: cell-wise max across layers.
+  - `sum`: cell-wise sum across layers.
+  - `meannz`: cell-wise mean across layers after removing zeros.
   - `count`: count the number layers with non-negative value for each
     cell.
   - `richness`: count the number of layers with positive values for each
@@ -99,10 +102,8 @@ Use `gdal-summarize.py -h` to get help and usage guidelines for this
 tool:
 
 ``` bash
-usage: gdal-summarize.py [-h] --outfile OUTFILE [--bands BANDS [BANDS ...]]
-                         [--function {mean,sum,count,richness}]
-                         [--block_size BLOCK_SIZE BLOCK_SIZE] [--nrows NROWS]
-                         [--quiet] [--overwrite]
+usage: gdal-summarize.py [-h] --outfile OUTFILE [--bands BANDS [BANDS ...]] [--function {mean,median,max,sum,meannz,count,richness}]
+                         [--block_size BLOCK_SIZE BLOCK_SIZE] [--nrows NROWS] [--quiet] [--overwrite]
                          files [files ...]
 
 Summarize a set of rasters layers.
@@ -115,17 +116,14 @@ optional arguments:
   --outfile OUTFILE, -o OUTFILE
                         output raster
   --bands BANDS [BANDS ...], -b BANDS [BANDS ...]
-                        bands to summarize. single file: bands in this file to
-                        summarize (default all bands); multiple files: bands
-                        in corresponding files to summarize (default = 1)
-  --function {mean,sum,count,richness}, -f {mean,sum,count,richness}
-                        summarization function (default = 'sum')
+                        bands to summarize. single file: bands in this file to summarize (default all bands); multiple files: bands in
+                        corresponding files to summarize (default = 1)
+  --function {mean,median,max,sum,meannz,count,richness}, -f {mean,median,max,sum,meannz,count,richness}
+                        summarization function (default = 'mean')
   --block_size BLOCK_SIZE BLOCK_SIZE, -s BLOCK_SIZE BLOCK_SIZE
-                        x and y dimensions of blocks to process (default based
-                        on input)
+                        x and y dimensions of blocks to process (default based on input)
   --nrows NROWS, -n NROWS
-                        number of rows to process in a single block
-                        (block_size ignored if provided)
+                        number of rows to process in a single block (block_size ignored if provided)
   --quiet, -q           supress messages
   --overwrite, -w       overwrite existing file
 ```
