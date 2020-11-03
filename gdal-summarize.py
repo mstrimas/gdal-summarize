@@ -21,7 +21,7 @@ def main():
                         type = int, 
                         help = band_help)
     function_help = 'function to apply to cell values across layers.' + \
-        'meannz gives a mean of the non-zero values' + \
+        'meannz gives a mean of the non-zero values.' + \
         'count counts the number layers with non-negative values for each cell.' + \
         'richness counts the number of layers with positive values for each cell.'
     parser.add_argument('--function', '-f', 
@@ -34,12 +34,16 @@ def main():
                         help = 'x and y dimensions of blocks to process (default based on input)')
     parser.add_argument('--nrows', '-n', type = int,
                         help = 'number of rows to process in a single block (block_size ignored if provided)')
-    parser.add_argument('--quiet', '-q', 
-                        action = "store_true", 
-                        help = 'supress messages')
     parser.add_argument('--overwrite', '-w', 
                         action = "store_true", 
                         help = 'overwrite existing file')
+    parser.add_argument('--creation-option', '--co', 
+                        dest = 'creation_options', 
+                        default = [], action = 'append',
+                        help='passes one or more creation options to the output format driver multiple')
+    parser.add_argument('--quiet', '-q', 
+                        action = "store_true", 
+                        help = 'supress messages')
 
     # read arguments from the command line
     args = parser.parse_args()
@@ -169,7 +173,8 @@ def main():
         # create file
         out_driver = gdal.GetDriverByName('GTiff')
         r_out = out_driver.Create(args.outfile, raster_dim[0], raster_dim[1], 1,
-                                  gdal.GetDataTypeByName(out_type))
+                                  gdal.GetDataTypeByName(out_type),
+                                  args.creation_options)
 
         # set output geo info based on first input layer
         r_out.SetGeoTransform(out_transform)

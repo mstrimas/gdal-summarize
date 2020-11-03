@@ -108,14 +108,20 @@ optional arguments:
   --outfile OUTFILE, -o OUTFILE
                         output raster
   --bands BANDS [BANDS ...], -b BANDS [BANDS ...]
-                        bands to summarize. single file: bands in this file to summarize (default all bands); multiple files: bands in
-                        corresponding files to summarize (default = 1)
+                        bands to summarize. single file: bands in this file to
+                        summarize (default all bands); multiple files: bands
+                        in corresponding files to summarize (default = 1)
   --function {mean,median,max,sum,meannz,count,richness}, -f {mean,median,max,sum,meannz,count,richness}
                         summarization function (default = 'mean')
   --block_size BLOCK_SIZE BLOCK_SIZE, -s BLOCK_SIZE BLOCK_SIZE
-                        x and y dimensions of blocks to process (default based on input)
+                        x and y dimensions of blocks to process (default based
+                        on input)
   --nrows NROWS, -n NROWS
-                        number of rows to process in a single block (block_size ignored if provided)
-  --quiet, -q           supress messages
+                        number of rows to process in a single block
+                        (block_size ignored if provided)
   --overwrite, -w       overwrite existing file
+  --creation-option CREATION_OPTIONS, --co CREATION_OPTIONS
+                        passes one or more creation options to the output
+                        format driver multiple
+  --quiet, -q           supress messages
 ```
