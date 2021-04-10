@@ -54,8 +54,8 @@ def main():
         if not args.bands:
             b = gdal.Open(args.files[0], gdal.GA_ReadOnly).RasterCount
             args.bands = [i for i in range(1, b + 1)]
-        elif len(args.bands) == 1:
-            raise Exception('For a single input file, provide multiple bands to summarize over.')
+        # elif len(args.bands) == 1:
+        #     raise Exception('For a single input file, provide multiple bands to summarize over.')
         args.files = [args.files[0]] * len(args.bands)
     else:
         # use band 1 if not specified
