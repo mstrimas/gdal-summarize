@@ -7,14 +7,14 @@ The goal of `gdal-summarize.py` is to summarize raster data across
 layers. There are two common use cases for this tool. The first is
 calculating a cell-wise summary across the bands of a raster file
 (e.g. a GeoTIFF). For example, given a multi-band input GeoTIFF file
-`input.tif`, to calculate the cell-wise sum of the first three bands
+`input.tif`, to calculate the cell-wise mean of the first three bands
 use:
 
 ``` bash
 gdal-summarize.py input.tif --bands 1 2 3 --outfile output.tif
 ```
 
-Alternatively, to compute the cell-wise sum across multiple GeoTIFF
+Alternatively, to compute the cell-wise mean across multiple GeoTIFF
 files (`input1.tif`, `input2.tif`, and `input3.tif`) use:
 
 ``` bash
@@ -44,21 +44,21 @@ starting point for `gdal-summarize.py`.
 The default behavior is to perform a cell-wise mean; however, other
 summary functions are available via the `--function` argument:
 
-  - `mean`: cell-wise mean across layers.
-  - `median`: cell-wise median across layers.
-  - `max`: cell-wise max across layers.
-  - `sum`: cell-wise sum across layers.
-  - `meannz`: cell-wise mean across layers after removing zeros.
-  - `count`: count the number layers with non-negative value for each
+-   `mean`: cell-wise mean across layers.
+-   `median`: cell-wise median across layers.
+-   `max`: cell-wise max across layers.
+-   `sum`: cell-wise sum across layers.
+-   `meannz`: cell-wise mean across layers after removing zeros.
+-   `count`: count the number layers with non-negative value for each
     cell.
-  - `richness`: count the number of layers with positive values for each
+-   `richness`: count the number of layers with positive values for each
     cell.
 
 In all cases, these functions remove missing values (i.e. NoData or NA)
 prior to calculating the summary statistic. For example, the mean of the
-numners, 1, 2, and NoData is 1.5. This is similar to the way `na.rm =
-TRUE` works in R. I’d be happy to add additional summary functions, just
-[open an
+numners, 1, 2, and NoData is 1.5. This is similar to the way
+`na.rm = TRUE` works in R. I’d be happy to add additional summary
+functions, just [open an
 issue](https://github.com/mstrimas/gdal-summarize/issues/new/choose) or
 [submit a pull
 request](https://github.com/mstrimas/gdal-summarize/compare).

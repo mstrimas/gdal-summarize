@@ -20,13 +20,13 @@ knitr::opts_chunk$set(
 
 # gdal-summarize
 
-The goal of `gdal-summarize.py` is to summarize raster data across layers. There are two common use cases for this tool. The first is calculating a cell-wise summary across the bands of a raster file (e.g. a GeoTIFF). For example, given a multi-band input GeoTIFF file `input.tif`, to calculate the cell-wise sum of the first three bands use:
+The goal of `gdal-summarize.py` is to summarize raster data across layers. There are two common use cases for this tool. The first is calculating a cell-wise summary across the bands of a raster file (e.g. a GeoTIFF). For example, given a multi-band input GeoTIFF file `input.tif`, to calculate the cell-wise mean of the first three bands use:
 
 ```{bash, eval=FALSE}
 gdal-summarize.py input.tif --bands 1 2 3 --outfile output.tif
 ```
 
-Alternatively, to compute the cell-wise sum across multiple GeoTIFF files (`input1.tif`, `input2.tif`, and `input3.tif`) use:
+Alternatively, to compute the cell-wise mean across multiple GeoTIFF files (`input1.tif`, `input2.tif`, and `input3.tif`) use:
 
 ```{bash, eval=FALSE}
 gdal-summarize.py input1.tif input2.tif input3.tif --outfile output.tif
