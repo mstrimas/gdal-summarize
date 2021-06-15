@@ -247,7 +247,10 @@ def main():
             for i in range(len(stack)):
                 vals = gdalnumeric.BandReadAsArray(stack[i].GetRasterBand(args.bands[i]),
                                                    xoff = x_off, yoff = y_off,
-                                                   win_xsize = xvalid, win_ysize = yvalid).astype(out_type_np)
+                                                   win_xsize = xvalid, win_ysize = yvalid)
+                if out_type != "Int16":
+                    vals = vals.astype(out_type_np)
+                
                 # fill in nodata values
                 if in_ndv[i] is not None:
                     vals[vals == in_ndv[i]] = np_nan
